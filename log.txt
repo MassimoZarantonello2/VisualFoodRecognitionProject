@@ -1,0 +1,11 @@
+26 15:45:41: Length of train dataset: 5020
+26 15:45:41: Length of unlabel dataset: 113455
+
+26 15:45:41: Cycle: 0
+26 15:45:41: Training model resnet18
+26 15:45:41:      Loading model resnet18_0.pth
+26 15:48:22: Length of train dataset: 5020
+26 15:48:22: Length of unlabel dataset: 113455
+
+26 15:48:22: Cycle: 0
+26 15:48:23:      Loading model resnet18_0.pth

@@ -1,0 +1,67 @@
+# Bytecode e file temporanei Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+env/
+venv/
+ENV/
+.venv/
+*.egg-info/
+
+# File di configurazione locali
+*.env
+*.local
+*.DS_Store
+
+# Log e debug
+*.log
+*.out
+*.err
+
+# Dati generati
+*.sqlite3
+*.db
+*.dat
+*.bak
+*.tmp
+
+# Configurazioni IDE/editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Librerie installate e build
+.Python
+build/
+dist/
+*.egg
+pip-wheel-metadata/
+
+# Test coverage
+htmlcov/
+*.cover
+*.coverage
+.cache
+
+# Distribuzione e pacchetti
+*.manifest
+*.spec
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# TensorFlow, PyTorch, ecc.
+checkpoint/
+*.ckpt
+
+# File di sistema temporanei
+*.~undo-tree*
+
+train_set
+val_set
+.gitingore
+.git
+models/trained_models
