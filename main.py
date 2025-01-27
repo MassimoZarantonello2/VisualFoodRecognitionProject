@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     train_unlabel_df = pd.read_csv(train_unlabel_path)
     train_unlabel_dataset = ImageDataset(train_unlabel_df, train_image_path, train=True)
-    for cycle in range(3,6):
+    for cycle in range(5,7):
         lc = LogClass('log.txt')
         lc.write('\n')
         lc.write(f'Length of train dataset: {len(iterative_train_df)}')
@@ -41,7 +41,11 @@ if __name__ == '__main__':
 
         # Calcolo l'agreement tra le predizioni dei modelli e il threshold
         images_idx, images_label = get_agreement_and_treshold(models_predictions, prediction_dataset, weights, confidence=0.80, lc=lc)
-
+        if len(images_idx) == 0:
+            lc.write('No images added to the train set')
+            lc.write('----------------------------------------------------------------------------------------------------------\n')
+            lc.close()
+            break
         # Aggiorno i dataset rimuovendo le immagini aggiunte al training set iterativo
         it_len_before = iterative_train_dataset.__len__()
         un_len_before = train_unlabel_dataset.__len__()

@@ -36,7 +36,6 @@ class FoodCNN():
                 param.requires_grad = True
             self.parameters = model.classifier.parameters()
         elif self.model_name == 'vgg16':
-        # Usa i pesi predefiniti
             weights = VGG16_Weights.IMAGENET1K_V1
             model = vgg16(weights=weights)
             for param in model.parameters():
@@ -46,6 +45,15 @@ class FoodCNN():
             for param in model.classifier[-1].parameters():
                 param.requires_grad = True
             self.parameters = model.classifier.parameters()
+        elif self.model_name == 'resnet50':
+            model = models.resnet50(pretrained=True)
+            for param in model.parameters():
+                param.requires_grad = False
+            num_features = model.fc.in_features
+            model.fc = nn.Linear(num_features, self.num_classes)
+            for param in model.fc.parameters():
+                param.requires_grad = True
+            self.parameters = model.fc.parameters()
         else:
             raise ValueError(f"Unsupported model name: {self.model_name}")
         
@@ -76,13 +84,13 @@ class FoodCNN():
         val_accuracy = correct / total
         return val_loss / len(val_loader), val_accuracy
 
-    def train_model(self, train_dataset, val_loader=None, validation=0, num_epochs=10, lr=0.001, save_path='./models/trained_models/', cycle = 0):
+    def train_model(self, train_dataset, validation=0, num_epochs=10, lr=0.001, save_path='./models/trained_models/', cycle = 0):
         '''
         Funzione per il training del modello. Prende in input il dataloader di training e di validazione, il numero di epoche
         e il learning rate. Restituisce le liste di loss di training e validazione.
         '''
         img_path = train_dataset.image_path
-        if validation > 0 and val_loader is None:
+        if validation > 0:
             train_dataset, val_dataset = train_test_split(train_dataset.dataframe, test_size=validation, random_state=42)
             train_dataset = ImageDataset(train_dataset,image_path=img_path, train=True)
             val_dataset = ImageDataset(val_dataset,image_path=img_path, train=False)

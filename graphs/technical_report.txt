@@ -1,0 +1,2 @@
+12:46:12: Max Memory Allocated: 850.86 MB
+12:46:12: Training time: 1140.93 s

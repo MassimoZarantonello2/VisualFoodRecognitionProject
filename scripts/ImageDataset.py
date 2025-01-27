@@ -86,7 +86,7 @@ class ImageDataset(Dataset):
         return self.dataframe
     
     def get_all_labels(self):
-        return self.dataframe['label'].values
+        return self.dataframe['label'].tolist()
     
     def random_sample(self, size):
         return ImageDataset(self.dataframe.sample(n=size).reset_index(drop=True), self.image_path, train=True)
