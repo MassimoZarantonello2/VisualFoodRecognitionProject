@@ -22,12 +22,12 @@ def train_models(model_list, data_dataset, prediction_loader, cycle, num_epochs,
             start = time.time()
             train_loss, val_loss, train_accuracy, val_accuracy = model.train_model(data_dataset, validation=0.1, num_epochs=num_epochs, cycle = cycle)
             end = time.time()
-            lc.write(f'     Training time: {start - end}')
+            lc.write(f'     Training time: {end - start}')
             models_accuracies.append(val_accuracy[4])
         start = time.time()
         predictions = model.predict(prediction_loader)
         end = time.time()
-        lc.write(f'     Prediction time: {start - end}')
+        lc.write(f'     Prediction time: {end - start}')
         models_predictions.append(predictions)
         lc.write(f'     Model {model.model_name} accuracy: {models_accuracies[-1]}')
     return models_accuracies, models_predictions
@@ -48,9 +48,9 @@ def get_agreement_and_treshold(predictions, iterative_train_dataframe, weights, 
     images_label = []
     images_to_add = 0
     for i in range(len(res_predictions)):
-        res_label = np.argmax(res_predictions[i])
-        eff_label = np.argmax(eff_predictions[i])
-        vgg_label = np.argmax(vgg_predictions[i])
+        res_label = int(np.argmax(res_predictions[i]))
+        eff_label = int(np.argmax(eff_predictions[i]))
+        vgg_label = int(np.argmax(vgg_predictions[i]))
 
         res_confidence = res_predictions[i][res_label]
         eff_confidence = eff_predictions[i][eff_label]
@@ -60,14 +60,13 @@ def get_agreement_and_treshold(predictions, iterative_train_dataframe, weights, 
             models_confidence = res_confidence * res_weight + eff_confidence * eff_weight + vgg_confidence * vgg_weight
             if models_confidence > confidence:
                 images_to_add += 1
-                images_idx.append(iterative_train_dataframe.iloc[i, 0])
+                images_idx.append(iterative_train_dataframe.get_image_id(i))
                 images_label.append(res_label)
 
     print(f'Images to add: {images_to_add}')
-    lc.write(f'Number od images to add: {images_to_add}')
     return images_idx, images_label
 
-def update_datasets(images_idx, images_label, iterative_train_dataset, unlabeld_train_dataset):
+def update_datasets(images_idx, images_label, unlabeld_train_dataset, iterative_train_dataset):
     '''
     images_idx: list of names of the images to add
     images_label: list of labels of the images to add

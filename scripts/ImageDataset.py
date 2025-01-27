@@ -23,6 +23,7 @@ class ImageDataset(Dataset):
         self.dataframe = gt_dataframe
         self.image_path = image_path
         if dataset_size:
+            self.dataframe = self.dataframe.sample(frac=1).reset_index(drop=True)
             self.dataframe = self.dataframe[:dataset_size]
         # Trasformazioni
         if train:
@@ -86,6 +87,9 @@ class ImageDataset(Dataset):
     
     def get_all_labels(self):
         return self.dataframe['label'].values
+    
+    def random_sample(self, size):
+        return ImageDataset(self.dataframe.sample(n=size).reset_index(drop=True), self.image_path, train=True)
 
 if __name__ == '__main__':
     train_gt_path = './ground_truth/train_small.csv'

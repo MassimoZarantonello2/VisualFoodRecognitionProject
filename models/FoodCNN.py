@@ -2,6 +2,7 @@ import torch
 from torch import nn, optim
 from tqdm import tqdm
 from torchvision.models import resnet18, ResNet18_Weights
+from torchvision.models import vgg16, VGG16_Weights
 from torchvision import models
 from torch.utils.data import DataLoader
 from scripts.ImageDataset import ImageDataset
@@ -35,7 +36,9 @@ class FoodCNN():
                 param.requires_grad = True
             self.parameters = model.classifier.parameters()
         elif self.model_name == 'vgg16':
-            model = models.vgg16(pretrained=True)
+        # Usa i pesi predefiniti
+            weights = VGG16_Weights.IMAGENET1K_V1
+            model = vgg16(weights=weights)
             for param in model.parameters():
                 param.requires_grad = False
             num_features = model.classifier[-1].in_features

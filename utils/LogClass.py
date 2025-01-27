@@ -5,7 +5,7 @@ class LogClass():
         self.log = open(self.log_file, 'a')
 
     def write(self, text, data=None):
-        time_stamp = time.strftime('%d %H:%M:%S', time.localtime())
+        time_stamp = time.strftime('%H:%M:%S', time.localtime())
         if text == '\n':
             self.log.write('\n')
             return

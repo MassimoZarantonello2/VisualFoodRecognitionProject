@@ -1,11 +1,49 @@
-26 15:45:41: Length of train dataset: 5020
-26 15:45:41: Length of unlabel dataset: 113455
+18:07:16: Length of train dataset: 5020
+18:07:16: Length of unlabel dataset: 113455
 
-26 15:45:41: Cycle: 0
-26 15:45:41: Training model resnet18
-26 15:45:41:      Loading model resnet18_0.pth
-26 15:48:22: Length of train dataset: 5020
-26 15:48:22: Length of unlabel dataset: 113455
+18:07:16: Cycle: 0
+18:07:16:      Loading model resnet18_0.pth
+18:13:48:      Prediction time: 391.7722897529602
+18:13:48:      Model resnet18 accuracy: -1
+18:13:48:      Loading model efficientnet_0.pth
+18:18:13:      Prediction time: 264.66122126579285
+18:18:13:      Model efficientnet accuracy: -1
+18:18:16:      Loading model vgg16_0.pth
+18:37:25:      Prediction time: 1148.679414987564
+18:37:25:      Model vgg16 accuracy: -1
+18:37:25: Weights:  [0.33333333 0.33333333 0.33333333]
+18:37:25: Number of images added to train set: 52
+18:37:25: Number of images removed from unlabel set: 52
+18:37:25: ----------------------------------------------------------------------------------------------------------
+19:02:38: Length of train dataset: 5072
+19:02:38: Length of unlabel dataset: 113455
 
-26 15:48:22: Cycle: 0
-26 15:48:23:      Loading model resnet18_0.pth
+19:02:38: Cycle: 2
+19:02:39: Training model <models.FoodCNN.FoodCNN object at 0x0000018FFB4B46A0>
+19:12:11:      Training time: 572.5538301467896
+19:18:36:      Prediction time: 384.6084485054016
+19:18:36:      Model resnet18 accuracy: 0.18503937007874016
+19:18:36: Training model <models.FoodCNN.FoodCNN object at 0x0000018FFB4B46A0>
+22:48:50:      Training time: 12613.730828762054
+22:52:58:      Prediction time: 248.20822095870972
+22:52:58:      Model efficientnet accuracy: 0.21653543307086615
+22:53:01: Training model <models.FoodCNN.FoodCNN object at 0x0000018FFE30E380>
+23:04:59:      Training time: 718.357138633728
+23:56:37:      Prediction time: 3097.419666528702
+23:56:37:      Model vgg16 accuracy: 0.1830708661417323
+23:56:37: Weights:  [0.31649832 0.37037037 0.31313131]
+23:56:37: Number of images added to train set: 101
+23:56:37: Number of images removed from unlabel set: 101
+23:56:37: ----------------------------------------------------------------------------------------------------------
+
+
+10:03:36: Length of train dataset: 5072
+10:03:36: Length of unlabel dataset: 24900
+10:03:36: Cycle: 3
+10:03:36:      Loading model resnet18_3.pth
+
+10:11:43: Length of train dataset: 5072
+10:11:43: Length of unlabel dataset: 24900
+10:11:43: Cycle: 3
+10:11:43: Length of prediction dataset: 15000
+10:11:44:      Loading model resnet18_3.pth
