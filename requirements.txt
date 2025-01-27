@@ -57,8 +57,8 @@ six==1.17.0
 stack-data==0.6.3
 sympy==1.13.1
 threadpoolctl==3.5.0
-torch==2.5.1
-torchvision==0.20.1
+torch~=2.2.2
+torchvision~=0.17.2
 tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
@@ -66,3 +66,5 @@ triton==3.1.0
 typing_extensions==4.12.2
 tzdata==2024.2
 wcwidth==0.2.13
+
+python-dotenv~=1.0.1
