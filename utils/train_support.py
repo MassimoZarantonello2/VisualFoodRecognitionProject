@@ -17,8 +17,8 @@ def train_models(model_list, data_dataset, prediction_loader, cycle, num_epochs,
             lc.write(f'     Loading model {model.model_name}_{cycle}.pth')
             models_accuracies.append(-1)
         else:
-            print(f'Training model {model}')
-            lc.write(f'Training model {model}')
+            print(f'Training model {model.model_name}')
+            lc.write(f'Training model {model.model_name}')
             start = time.time()
             train_loss, val_loss, train_accuracy, val_accuracy = model.train_model(data_dataset, validation=0.1, num_epochs=num_epochs, cycle = cycle)
             end = time.time()

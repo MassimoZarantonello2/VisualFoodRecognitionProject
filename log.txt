@@ -47,3 +47,52 @@
 10:11:43: Cycle: 3
 10:11:43: Length of prediction dataset: 15000
 10:11:44:      Loading model resnet18_3.pth
+
+10:20:55: Length of train dataset: 5173
+10:20:55: Length of unlabel dataset: 24899
+10:20:55: Cycle: 3
+10:20:55: Length of prediction dataset: 15000
+10:20:55:      Loading model resnet18_3.pth
+10:24:18:      Prediction time: 202.9969460964203
+10:24:18:      Model resnet18 accuracy: -1
+10:24:18: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9CA8DF0>
+10:33:51:      Training time: 573.0345203876495
+10:38:02:      Prediction time: 250.68623733520508
+10:38:02:      Model efficientnet accuracy: 0.19111969111969113
+10:38:05: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9D61600>
+10:50:26:      Training time: 741.0991160869598
+10:54:03:      Prediction time: 216.7103419303894
+10:54:03:      Model vgg16 accuracy: 0.15057915057915058
+10:54:03: Weights:  [ 1.51906158 -0.29032258 -0.228739  ]
+10:54:03: Number of images added to train set: 107
+10:54:03: Number of images removed from unlabel set: 107
+10:54:03: ----------------------------------------------------------------------------------------------------------
+
+
+10:54:03: Length of train dataset: 5173
+10:54:03: Length of unlabel dataset: 24899
+10:54:03: Cycle: 4
+10:54:03: Length of prediction dataset: 15000
+10:54:03: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9D761A0>
+11:04:01:      Training time: 597.9417054653168
+11:07:03:      Prediction time: 181.47580933570862
+11:07:03:      Model resnet18 accuracy: 0.2215909090909091
+11:07:03: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9D761A0>
+11:16:13:      Training time: 550.437263250351
+11:19:00:      Prediction time: 166.16880702972412
+11:19:00:      Model efficientnet accuracy: 0.23674242424242425
+11:19:01: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9CA9390>
+11:31:58:      Training time: 777.0262413024902
+11:35:35:      Prediction time: 217.0397515296936
+11:35:35:      Model vgg16 accuracy: 0.19696969696969696
+11:35:35: Weights:  [0.33815029 0.36127168 0.30057803]
+11:35:35: Number of images added to train set: 51
+11:35:35: Number of images removed from unlabel set: 51
+11:35:35: ----------------------------------------------------------------------------------------------------------
+
+
+11:35:35: Length of train dataset: 5173
+11:35:35: Length of unlabel dataset: 24899
+11:35:35: Cycle: 5
+11:35:35: Length of prediction dataset: 15000
+11:35:35: Training model <models.FoodCNN.FoodCNN object at 0x00000232E9CA8F40>
