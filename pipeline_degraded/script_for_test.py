@@ -20,9 +20,4 @@ test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
 
-for i in range(len(test_dataset)):
-    image=test_dataset.get_image_by_index(i)
-    blurry_metrics = detect_blurriness(image)
-
-    if blurry_metrics["laplacian_variance"]  < 20:
-        image.show()
+exemple = test_dataset.get_image_by_id("val_000001.jpg")
