@@ -30,6 +30,8 @@ gdf_entropies = []
 extreme_pixels_per = []
 mad = []
 kurt = []
+variances = []
+snr = []
 
 for i in range(len(test_dataset)):
     image=test_dataset.get_image_by_index(i)
@@ -42,6 +44,8 @@ for i in range(len(test_dataset)):
     extreme_pixels_per.append(blurry_metrics["extreme_pixel"])
     mad.append(blurry_metrics["mad"])
     kurt.append(blurry_metrics["kurt"])
+    variances.append(blurry_metrics["variance"])
+    snr.append(blurry_metrics["snr"])
 
     results.append({
         "image_id": test_table.iloc[i]['image_id'],
@@ -51,7 +55,9 @@ for i in range(len(test_dataset)):
         "gdf_entropy": blurry_metrics["gdf_entropy"],
         "extreme_pixel": blurry_metrics["extreme_pixel"],
         "mad": blurry_metrics["mad"],
-        "kurt": blurry_metrics["kurt"]
+        "kurt": blurry_metrics["kurt"],
+        "variance": blurry_metrics["variance"],
+        "snr": blurry_metrics["snr"]
     })
 
     print(f"Image {i} processed.")
@@ -63,6 +69,8 @@ mean_gdf_entropy = np.mean(gdf_entropies)
 mean_extreme_pixels_per = np.mean(extreme_pixels_per)
 mean_mad = np.mean(mad)
 mean_kurt = np.mean(kurt)
+mean_var = np.mean(variances)
+mean_snr = np.mean(snr)
 
 print("Mean Laplacian Variance:", mean_laplacian_variance)
 print("Mean Gradient Mean:", mean_gradient_mean)
@@ -71,6 +79,8 @@ print("Mean GDF Entropy:", mean_gdf_entropy)
 print("Mean Extreme Pixels Percentage:", mean_extreme_pixels_per)
 print("Mean Mad", mean_mad)
 print("Mean Kurt", mean_kurt)
+print("Mean Variance", mean_var)
+print("Mean SNR", mean_snr)
 
 output_path = "/Users/annamarika/Desktop/blurriness_metrics_degradato2.json"
 with open(output_path, "w") as json_file:
