@@ -19,7 +19,7 @@ test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
 n = len(test_dataset)
-for i in range(20):
+for i in range(50):
     image = test_dataset.get_image_by_index(i)
     blurry_metrics = detect_noises(image)
 
@@ -34,10 +34,11 @@ for i in range(20):
     elif blurry_metrics["laplacian_variance"] > 5000:
         if not denoise_applied:
             image = denoise_salt_pepper(image)
+            image = denoise_bilateral(image)
             denoise_applied = True
-    elif blurry_metrics["laplacian_variance"] < 200:
+    elif blurry_metrics["laplacian_variance"] < 150:
         if not blurriness_applied:
-            image = blurriness(image)
+            image = deblurring(image)
             blurriness_applied = True
 
     if 200 <= blurry_metrics["gradient_mean"] <= 1250:
@@ -45,19 +46,21 @@ for i in range(20):
     elif blurry_metrics["gradient_mean"] > 1250:
         if not denoise_applied:
             image = denoise_salt_pepper(image)
+            image = denoise_bilateral(image)
             denoise_applied = True
     elif blurry_metrics["gradient_mean"] < 200:
         if not blurriness_applied:
-            image = blurriness(image)
+            image = deblurring(image)
             blurriness_applied = True
 
     if blurry_metrics["gdf_entropy"] > 4.5:
         if not denoise_applied:
             image = denoise_salt_pepper(image)
+            image = denoise_bilateral(image)
             denoise_applied = True
     if blurry_metrics["gradient_std"] < 450:
         if not blurriness_applied:
-            image = blurriness(image)
+            image = deblurring(image)
             blurriness_applied = True
     print(f"Image {i} processed.")
     image.save(f"/Users/annamarika/Desktop/improvement_degradated/{test_table.iloc[i]['image_id']}.jpg")

@@ -54,12 +54,18 @@ def detect_noises(image: Image.Image):
     # 4. calculate the percentage of pixels in the image that have intensity values
     #     very close to 0 (black) or 255 (white)
     extreme_pixels = calculate_extreme_pixel(image)
-    # 5. Kurtosis
+    # 5. Kurtosis and MAD
     pixel_values = image.flatten()
     mean_intensity = np.mean(pixel_values)
     mad = np.mean(np.abs(pixel_values - mean_intensity))
 
     kurt = kurtosis(pixel_values, fisher=False)
+    # 6. Variance of pixel intensities
+    variance = np.var(pixel_values)
+
+    # 7. Signal-to-Noise Ratio (SNR)
+    signal_power = mean_intensity ** 2
+    snr = 10 * np.log10(signal_power / (variance + 1e-10))
 
     return {
         "laplacian_variance": laplacian_var,
@@ -69,6 +75,8 @@ def detect_noises(image: Image.Image):
         "extreme_pixel": extreme_pixels,
         "mad": mad,
         "kurt": kurt,
+        "variance": variance,
+        "snr": snr,
     }
 
 

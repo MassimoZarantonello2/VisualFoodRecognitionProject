@@ -27,9 +27,36 @@ def denoise_salt_pepper(image: Image.Image, kernel_size: int = 3) -> Image.Image
     else:
         raise ValueError("Unsupported image format.")
 
-    denoised_image = Image.fromarray(denoised_np)
+    image_rgb = cv2.cvtColor(denoised_np, cv2.COLOR_BGR2RGB)
+
+    denoised_image = Image.fromarray(image_rgb)
 
     return denoised_image
+
+def non_local_means(image):
+    image = np.array(image)
+    denoised_nlmeans = cv2.fastNlMeansDenoisingColored(image, None, 10, 10, 7, 21)
+    nlmeans_rgb = cv2.cvtColor(denoised_nlmeans, cv2.COLOR_BGR2RGB)
+    denoised_image = Image.fromarray(nlmeans_rgb)
+    return denoised_image
+
+def denoise_bilateral(image):
+    image = np.array(image)
+    denoised_bilateral = cv2.bilateralFilter(image, 9, 75, 75)
+    bilateral_rgb = cv2.cvtColor(denoised_bilateral, cv2.COLOR_BGR2RGB)
+    denoised_image = Image.fromarray(bilateral_rgb)
+    return denoised_image
+
+
+def denoise_bilateral_mask(image):
+    image = np.array(image)
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    _, mask = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY)
+    filtered_mask = cv2.bilateralFilter(mask, 9, 75, 75)
+    denoised_image = image.copy()
+    denoised_image[mask > 0] = cv2.cvtColor(filtered_mask, cv2.COLOR_GRAY2BGR)[mask > 0]
+    final_image = Image.fromarray(cv2.cvtColor(denoised_image, cv2.COLOR_BGR2RGB))
+    return final_image
 
 def adaptive_median_filter(image_pil, S_max=7):
     """
@@ -129,7 +156,7 @@ def adaptive_gamma_correction(image: Image.Image, sigma_color: float = 0.1, sigm
 
     return result_image
 
-def blind_deconvolution(image, iterations=200, psf_size=(5, 5)):
+def blind_deconvolution(image, iterations=25, psf_size=(5, 5)):
     """
     Perform Blind Deconvolution using the Richardson-Lucy algorithm.
 
@@ -282,7 +309,14 @@ def max_rgb(image: Image.Image, saturation = False, sfactor=1):
 
     return enhanced_image_pil
 
+def deblurring(image):
+    image = np.array(image)
 
+    sharpen_kernel = np.array([[-1,-1,-1], [-1,9,-1], [-1,-1,-1]])
+    sharpen = cv2.filter2D(image, 0 , sharpen_kernel)
+    deblurred = cv2.fastNlMeansDenoisingColored(sharpen,None,10,10,7,21)
+    denoised_image = Image.fromarray(deblurred)
+    return denoised_image
 
 
 
