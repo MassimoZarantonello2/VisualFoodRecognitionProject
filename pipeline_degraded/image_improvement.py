@@ -53,8 +53,4 @@ def image_improvement(image):
         if not blurriness_applied:
             image = deblurring(image)
             blurriness_applied = True
-    if not blurriness_applied and not denoise_applied:
-        image = denoise_salt_pepper(image)
-        image = denoise_bilateral(image)
-        image = blurriness(image)
     return image
