@@ -1,6 +1,4 @@
-from image_enhancement import *
-
-
+from pipeline_degraded.image_enhancement import *
 from pipeline_degraded.metric_utils import detect_noises
 
 def image_improvement(image):

@@ -62,6 +62,7 @@ checkpoint/
 
 train_set
 val_set
+val_set_degraded
 .gitingore
 .git
 models/trained_models

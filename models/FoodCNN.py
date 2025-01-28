@@ -8,6 +8,7 @@ from torch.utils.data import DataLoader
 from scripts.ImageDataset import ImageDataset
 from models.SimpleCNN import SimpleCNN
 from sklearn.model_selection import train_test_split
+from pipeline_degraded.image_improvement import image_improvement
 import os
 
 class FoodCNN():

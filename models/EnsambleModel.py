@@ -6,7 +6,7 @@ import numpy as np
 
 class EnsambleModel():
 
-    def __init__(self, models_name, models_weights, num_classes):
+    def __init__(self, models_name, models_weights, num_classes=251):
         self.models_name = models_name
         self.models_weights = models_weights
         self.num_classes = num_classes
