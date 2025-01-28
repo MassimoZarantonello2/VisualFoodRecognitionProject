@@ -20,7 +20,7 @@ test_image_path = os.getenv('TEST_IMAGE_PATH')
 test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
-name_image = "val_010340.jpg"
+name_image = "val_000013.jpg"
 image = test_dataset.get_image_by_id(name_image)
 blurry_metrics = detect_noises(image)
 
@@ -64,6 +64,10 @@ if blurry_metrics["gradient_std"] < 450:
     if not blurriness_applied:
         image = blurriness(image)
         blurriness_applied = True
+if not blurriness_applied and not denoise_applied:
+    image = denoise_salt_pepper(image)
+    image = denoise_bilateral(image)
+    image = blurriness(image)
 
 print(blurry_metrics)
 image.save(f"/Users/annamarika/Desktop/improvement_degradated/corr3_{name_image}")

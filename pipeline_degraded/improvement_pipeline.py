@@ -19,7 +19,7 @@ test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
 n = len(test_dataset)
-for i in range(50):
+for i in range(100):
     image = test_dataset.get_image_by_index(i)
     blurry_metrics = detect_noises(image)
 
