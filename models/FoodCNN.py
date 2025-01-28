@@ -6,6 +6,7 @@ from torchvision.models import vgg16, VGG16_Weights
 from torchvision import models
 from torch.utils.data import DataLoader
 from scripts.ImageDataset import ImageDataset
+from models.SimpleCNN import SimpleCNN
 from sklearn.model_selection import train_test_split
 import os
 
@@ -54,6 +55,9 @@ class FoodCNN():
             for param in model.fc.parameters():
                 param.requires_grad = True
             self.parameters = model.fc.parameters()
+        elif self.model_name == 'simplecnn':
+            model = SimpleCNN(self.num_classes)
+            self.parameters = model.parameters()
         else:
             raise ValueError(f"Unsupported model name: {self.model_name}")
         
