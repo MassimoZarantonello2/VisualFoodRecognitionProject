@@ -9,7 +9,6 @@ from torch.utils.data import DataLoader
 from utils.train_support import *
 from utils.LogClass import LogClass
 
-
 if __name__ == '__main__':
     model_list = ['resnet18', 'efficientnet', 'vgg16']
 
@@ -25,7 +24,7 @@ if __name__ == '__main__':
 
     train_unlabel_df = pd.read_csv(train_unlabel_path)
     train_unlabel_dataset = ImageDataset(train_unlabel_df, train_image_path, train=True)
-    for cycle in range(5,7):
+    for cycle in range(12,15):
         lc = LogClass('log.txt')
         lc.write('\n')
         lc.write(f'Length of train dataset: {len(iterative_train_df)}')
