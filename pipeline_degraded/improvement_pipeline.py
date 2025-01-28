@@ -58,6 +58,7 @@ for i in range(50):
             image = denoise_salt_pepper(image)
             image = denoise_bilateral(image)
             denoise_applied = True
+
     if blurry_metrics["gradient_std"] < 450:
         if not blurriness_applied:
             image = deblurring(image)
