@@ -162,7 +162,7 @@ class FoodCNN():
         '''
         Funzione per la predizione del modello. Prende in input il dataloader di test. Restituisce le predizioni.
         '''
-        images_loader = DataLoader(image_dataset, batch_size=32, shuffle=False)
+        images_loader = DataLoader(image_dataset, batch_size=32)
         self.model.eval()
         predictions = []
         with torch.no_grad():
