@@ -12,7 +12,7 @@ from scripts.ImageDataset import ImageDataset
 
 load_dotenv()
 
-test_path = '../ground_truth/new_val_info.csv'
+test_path = '../ground_truth/my_val_info.csv'
 test_image_path = os.getenv('TEST_IMAGE_PATH')
 
 test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
@@ -64,9 +64,5 @@ for i in range(100):
         if not blurriness_applied:
             image = deblurring(image)
             blurriness_applied = True
-    if not blurriness_applied and not denoise_applied:
-        image = denoise_salt_pepper(image)
-        image = denoise_bilateral(image)
-        image = blurriness(image)
     print(f"Image {i} processed.")
-    image.save(f"/Users/annamarika/Desktop/improvement_degradated/{test_table.iloc[i]['image_id']}.jpg")
+    image.save(f"/Users/annamarika/Desktop/improvement_degradated/{test_table.iloc[i]['image_id']}")

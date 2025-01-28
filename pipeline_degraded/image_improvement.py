@@ -8,7 +8,6 @@ from torch.utils.data import DataLoader
 from PIL import Image
 
 from pipeline_degraded.metric_utils import detect_noises
-from scripts.ImageDataset import ImageDataset
 
 def image_improvement(image):
     blurry_metrics = detect_noises(image)

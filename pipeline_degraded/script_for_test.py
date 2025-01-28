@@ -13,7 +13,7 @@ from scripts.ImageDataset import ImageDataset
 
 load_dotenv()
 
-test_path = '../ground_truth/new_val_info.csv'
+test_path = '../ground_truth/my_val_info.csv'
 test_image_path = os.getenv('TEST_IMAGE_PATH')
 # test_image_path = os.getenv('TRAIN_SET')
 
@@ -40,7 +40,6 @@ elif blurry_metrics["laplacian_variance"] > 5000:
 elif blurry_metrics["laplacian_variance"] < 150:
     if not blurriness_applied:
         image = deblurring(image)
-        # image = blurriness(image)
         blurriness_applied = True
 
 if 200 <= blurry_metrics["gradient_mean"] <= 1250:
@@ -52,7 +51,7 @@ elif blurry_metrics["gradient_mean"] > 1250:
         denoise_applied = True
 elif blurry_metrics["gradient_mean"] < 200:
     if not blurriness_applied:
-        image = blurriness(image)
+        image = deblurring(image)
         blurriness_applied = True
 
 if blurry_metrics["gdf_entropy"] > 4.5:
@@ -62,12 +61,10 @@ if blurry_metrics["gdf_entropy"] > 4.5:
         denoise_applied = True
 if blurry_metrics["gradient_std"] < 450:
     if not blurriness_applied:
-        image = blurriness(image)
+        image = deblurring(image)
         blurriness_applied = True
-if not blurriness_applied and not denoise_applied:
-    image = denoise_salt_pepper(image)
-    image = denoise_bilateral(image)
-    image = blurriness(image)
 
 print(blurry_metrics)
+print(blurriness_applied)
+print(denoise_applied)
 image.save(f"/Users/annamarika/Desktop/improvement_degradated/corr3_{name_image}")
