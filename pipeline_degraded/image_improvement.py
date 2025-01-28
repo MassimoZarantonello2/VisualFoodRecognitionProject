@@ -54,3 +54,11 @@ def image_improvement(image):
             image = deblurring(image)
             blurriness_applied = True
     return image
+
+def naive_improvement(image):
+    image = adaptive_gamma_correction(image)
+    image = max_rgb(image)
+    image = denoise_salt_pepper(image)
+    image = denoise_bilateral(image)
+    image = deblurring(image)
+    return image
