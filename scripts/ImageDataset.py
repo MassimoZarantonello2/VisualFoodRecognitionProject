@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset
+from pipeline_degraded.image_improvement import image_improvement
 from torchvision import transforms
 from PIL import Image
 import pandas as pd
@@ -14,7 +15,7 @@ class ImageDataset(Dataset):
         __getitem__: Restituisce un'immagine e la sua etichetta.
     '''
 
-    def __init__(self, gt_dataframe, image_path, train=True, dataset_size=None):
+    def __init__(self, gt_dataframe, image_path, train=True, dataset_size=None, deprecated=False):
         '''
         if labels = True: il dataset contiene le label
         if train = True: il dataset è di train e può essere diviso in train e validation 
@@ -36,12 +37,21 @@ class ImageDataset(Dataset):
                 transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
             ])
         else:
-            self.transform = transforms.Compose([
-                transforms.Resize((244, 244)),
-                transforms.CenterCrop(224),
-                transforms.ToTensor(),
-                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ])
+            if deprecated:
+                self.transform = transforms.Compose([
+                    transforms.Resize((244, 244)),
+                    transforms.Lambda(image_improvement),
+                    transforms.CenterCrop(224),
+                    transforms.ToTensor(),
+                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+                ])
+            else:
+                self.transform = transforms.Compose([
+                    transforms.Resize((244, 244)),
+                    transforms.CenterCrop(224),
+                    transforms.ToTensor(),
+                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+                ])
 
     def __len__(self):
         return len(self.dataframe)
