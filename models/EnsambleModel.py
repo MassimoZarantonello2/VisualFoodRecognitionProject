@@ -10,9 +10,9 @@ class EnsambleModel():
         self.models_name = models_name
         self.models_weights = models_weights
         self.num_classes = num_classes
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.models = []
         self.models = self.get_models()
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def train_ensamble(self, train_dataset, lr, num_epochs=10, lc=None):
         for model in self.models_name:

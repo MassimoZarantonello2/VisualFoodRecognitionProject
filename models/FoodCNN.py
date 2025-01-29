@@ -12,8 +12,8 @@ from pipeline_degraded.image_improvement import image_improvement
 import os
 
 class FoodCNN():
-    def __init__(self, model_name, num_classes=251, device='cuda'):
-        self.device = device
+    def __init__(self, model_name, num_classes=251):
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model_name = model_name.lower()
         self.num_classes = num_classes
         self.model = self._initialize_model()
@@ -202,6 +202,6 @@ class FoodCNN():
         '''
         Funzione per il caricamento di un modello salvato. Prende in input il path del modello.
         '''
-        self.model.load_state_dict(torch.load(path))
+        self.model.load_state_dict(torch.load(path, map_location=self.device))
         self.model.eval()
         return self.model
