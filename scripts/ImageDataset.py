@@ -99,7 +99,10 @@ class ImageDataset(Dataset):
 
     def __getitem__(self, idx):
         image_id = self.dataframe.iloc[idx, 0]
-        image_path = os.path.join(self.image_path, image_id)
+        if self.image_path is None:
+            image_path = image_id
+        else:
+            image_path = os.path.join(self.image_path, image_id)
         image = Image.open(image_path)
         if self.transform:
             image = self.transform(image)
