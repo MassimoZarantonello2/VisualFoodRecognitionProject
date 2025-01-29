@@ -34,43 +34,58 @@ def add_jpeg_noise(image, quality=8):
     return noisy_image
 
 
-input_folder = "/Users/annamarika/Desktop/small_set"
-noisy_folder = "/Users/annamarika/Desktop/small_noise_set"
-os.makedirs(noisy_folder, exist_ok=True)
+input_folder = "/Users/annamarika/Desktop/train_set"
+# noisy_folder = "/Users/annamarika/Desktop/small_noise_set_2"
+# os.makedirs(noisy_folder, exist_ok=True)
 
 original_images = []
 noisy_images = []
-
+i = 0
 noise_functions = [add_noise, blur_image, add_jpeg_noise]
-
 for filename in os.listdir(input_folder):
     if filename.endswith(".jpg") or filename.endswith(".jpeg"):
         img_path = os.path.join(input_folder, filename)
-        img = Image.open(img_path)
+        img = Image.open(img_path).convert("RGB")
 
-        img_resized = transform(img)
-        img_resized = transforms.ToPILImage()(img_resized)
+        img_tensor = transform(img)
+        img_resized = transforms.ToPILImage()(img_tensor)
 
         noisy_img = random.choice(noise_functions)(img_resized)
         noisy_img_tensor = transform(noisy_img)
-        noisy_img.save(os.path.join(noisy_folder, filename))
 
-        original_images.append(np.array(img_resized).flatten())
-        noisy_images.append(np.array(noisy_img).flatten())
+        # noisy_img.save(os.path.join(noisy_folder, filename))
+
+        original_images.append(img_tensor.numpy())
+        noisy_images.append(noisy_img_tensor.numpy())
+        print(f"fatto immagine {i}")
+        i += 1
 
 print("End of for")
+
+# sono ndarray con dim `num_immagini` x 3 x 244 x 244
 original_images = np.array(original_images)
 noisy_images = np.array(noisy_images)
 
-np.save("original_images.npy", original_images)
-np.save("noisy_images.npy", noisy_images)
+np.save("original_images2.npy", original_images)
+np.save("noisy_images2.npy", noisy_images)
+
+N, C, H, W = original_images.shape
+
+original_images = original_images.reshape(N, -1)
+# in questo modo original_images diventa N x 178608(ovvero 3x244x244)
+noisy_images = noisy_images.reshape(N, -1)
 
 knn = KNeighborsRegressor(n_neighbors=3)
 knn.fit(noisy_images, original_images)
 
-joblib.dump(knn, "knn_denoising_model.pkl")
+joblib.dump(knn, "knn_denoising_model2.pkl")
+
 print("Modello addestrato")
+
+
 """
+Lascio qui codice per aprire modelli salvati:
+
 original_images = np.load("original_images.npy")
 noisy_images = np.load("noisy_images.npy")
 
