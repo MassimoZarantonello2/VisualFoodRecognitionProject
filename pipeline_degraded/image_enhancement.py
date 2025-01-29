@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PIL import Image, ImageFilter
+from PIL import Image, ImageFilter, ImageEnhance
 
 def denoise_salt_pepper(image: Image.Image, kernel_size: int = 3) -> Image.Image:
     """
@@ -47,6 +47,10 @@ def denoise_bilateral(image):
     denoised_image = Image.fromarray(bilateral_rgb)
     return denoised_image
 
+def enhance_sharpness(image, factor=2.0):
+    enhancer = ImageEnhance.Sharpness(image)
+    sharpened_image = enhancer.enhance(factor)
+    return sharpened_image
 
 def denoise_bilateral_mask(image):
     image = np.array(image)

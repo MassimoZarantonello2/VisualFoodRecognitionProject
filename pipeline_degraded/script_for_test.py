@@ -40,6 +40,7 @@ elif blurry_metrics["laplacian_variance"] > 5000:
 elif blurry_metrics["laplacian_variance"] < 150:
     if not blurriness_applied:
         image = deblurring(image)
+        image = enhance_sharpness(image)
         blurriness_applied = True
 
 if 200 <= blurry_metrics["gradient_mean"] <= 1250:
@@ -52,6 +53,7 @@ elif blurry_metrics["gradient_mean"] > 1250:
 elif blurry_metrics["gradient_mean"] < 200:
     if not blurriness_applied:
         image = deblurring(image)
+        image = enhance_sharpness(image)
         blurriness_applied = True
 
 if blurry_metrics["gdf_entropy"] > 4.5:
@@ -62,6 +64,7 @@ if blurry_metrics["gdf_entropy"] > 4.5:
 if blurry_metrics["gradient_std"] < 450:
     if not blurriness_applied:
         image = deblurring(image)
+        image = enhance_sharpness(image)
         blurriness_applied = True
 
 print(blurry_metrics)
