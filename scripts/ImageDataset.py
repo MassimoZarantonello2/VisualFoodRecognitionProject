@@ -4,7 +4,35 @@ from torchvision import transforms
 from PIL import Image
 import pandas as pd
 import os
+import numpy as np
+from PIL import ImageFilter
 
+
+def denoise(im):
+    img_denoised = im.filter(ImageFilter.MedianFilter(size=5))
+
+    # Definisci il kernel personalizzato (simile al filtro di OpenCV)
+    c_v = 13
+    other_v = -3
+    kernel = np.array([[ 0, other_v,  0],
+                    [other_v,  c_v, other_v],
+                    [ 0, other_v,  0]], dtype=np.float32)
+
+    # Converte il kernel in un formato che PIL accetta
+    kernel = ImageFilter.Kernel((3, 3), kernel.flatten(), scale=None, offset=0)
+
+    # Applica il filtro personalizzato (simile al filter2D di OpenCV)
+    img_sharpened = img_denoised.filter(kernel)
+
+    return img_sharpened
+
+def add_noise(im):
+    img_array = np.array(im)
+    noise = np.random.normal(0, 25, img_array.shape)
+    noisy_image_array = img_array + noise
+    noisy_image_array = np.clip(noisy_image_array, 0, 255)
+    noisy_image = Image.fromarray(np.uint8(noisy_image_array))
+    return noisy_image
 
 class ImageDataset(Dataset):
     '''
@@ -27,23 +55,36 @@ class ImageDataset(Dataset):
             self.dataframe = self.dataframe[:dataset_size]
         # Trasformazioni
         if train:
-            self.transform = transforms.Compose([
-                transforms.Resize((244, 244)),
-                transforms.RandomHorizontalFlip(p=0.5),
-                transforms.RandomRotation(degrees=15),
-                transforms.RandomCrop(224, padding=10),
-                transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
-                transforms.ToTensor(),
-                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-            ])
+            if deprecated:
+                self.transform = transforms.Compose([
+                    transforms.Resize((244, 244)),
+                    transforms.Lambda(add_noise),
+                    transforms.Lambda(denoise),
+                    transforms.RandomHorizontalFlip(p=0.5),
+                    transforms.RandomRotation(degrees=15),
+                    transforms.RandomCrop(224, padding=10),
+                    #transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
+                    transforms.ToTensor(),
+                    #transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+                ])
+            else:
+                self.transform = transforms.Compose([
+                    transforms.Resize((244, 244)),
+                    transforms.RandomHorizontalFlip(p=0.5),
+                    transforms.RandomRotation(degrees=15),
+                    transforms.RandomCrop(224, padding=10),
+                    transforms.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
+                    transforms.ToTensor(),
+                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+                ])
         else:
             if deprecated:
                 self.transform = transforms.Compose([
                     transforms.Resize((244, 244)),
-                    transforms.Lambda(image_improvement),
+                    transforms.Lambda(denoise),
                     transforms.CenterCrop(224),
                     transforms.ToTensor(),
-                    transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+                    #transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
                 ])
             else:
                 self.transform = transforms.Compose([

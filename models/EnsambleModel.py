@@ -6,18 +6,21 @@ import numpy as np
 
 class EnsambleModel():
 
-    def __init__(self, models_name, models_weights, num_classes=251):
+    def __init__(self, models_name, pre_trained = True, models_weights=[], num_classes=251):
         self.models_name = models_name
-        self.models_weights = models_weights
         self.num_classes = num_classes
-        self.models = []
-        self.models = self.get_models()
+        if not pre_trained:
+            self.models_weights = []
+            self.models = []
+        else:
+            self.models_weights = models_weights
+            self.models = self.get_models()
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     def train_ensamble(self, train_dataset, lr, num_epochs=10, lc=None):
-        for model in self.models_name:
-            model = FoodCNN(model_name=model, num_classes=self.num_classes)
-            _, _, _, val_accuracies = model.train_model(train_dataset, validation=0.2, lr=lr, num_epochs=num_epochs, cycle=-1, lc=lc)
+        for model_name in self.models_name:
+            model = FoodCNN(model_name=model_name, num_classes=self.num_classes)
+            _, _, _, val_accuracies = model.train_model(train_dataset, validation=0.2, lr=lr, num_epochs=num_epochs, cycle=-1)
             self.models.append(model)
             self.models_weights.append(val_accuracies[-1])
 
