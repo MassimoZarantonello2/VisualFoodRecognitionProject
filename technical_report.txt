@@ -15,3 +15,5 @@ RESNET50
 
 19:08:42: Max Memory Allocated: 1576.48 MB
 19:08:42: Training time: 1876.51 s
+20:18:59: Max Memory Allocated: 1655.85 MB
+20:18:59: Training time: 1191.06 s

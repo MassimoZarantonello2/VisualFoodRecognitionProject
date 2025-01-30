@@ -9,9 +9,9 @@ class EnsambleModel():
     def __init__(self, models_name, pre_trained = True, models_weights=[], num_classes=251):
         self.models_name = models_name
         self.num_classes = num_classes
+        self.models = []
         if not pre_trained:
             self.models_weights = []
-            self.models = []
         else:
             self.models_weights = models_weights
             self.models = self.get_models()
