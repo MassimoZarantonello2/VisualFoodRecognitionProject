@@ -20,7 +20,7 @@ test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
 
 n = len(test_dataset)
-for i in range(n):
+for i in range(20):
     image = test_dataset.get_image_by_index(i)
     blurry_metrics = detect_noises(image)
 
@@ -30,7 +30,7 @@ for i in range(n):
     denoise_applied = False
     blurriness_applied = False
 
-    if 200 <= blurry_metrics["laplacian_variance"] <= 5000:
+    if 150 <= blurry_metrics["laplacian_variance"] <= 5000:
         pass
     elif blurry_metrics["laplacian_variance"] > 5000:
         if not denoise_applied:

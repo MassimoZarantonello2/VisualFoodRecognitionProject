@@ -5,30 +5,29 @@ from scipy.stats import kurtosis
 
 def detect_noises(image: Image.Image):
     """
-        Detects noises in an image by analyzing its sharpness, gradient distribution,
-        and the count of extreme pixel values. This function computes several metrics
-        to determine noise characteristics based on image properties and statistics.
+    Analyzes various noise-related metrics in a grayscale image and returns a dictionary
+    containing measures of image sharpness, intensity distribution, and other statistical
+    properties. This function employs various techniques such as Laplacian variance, gradient
+    analysis, kurtosis, and signal-to-noise ratio to provide robust measures of noise and
+    image quality.
 
-        Arguments:
-            image (PIL.Image.Image): The input image to process. It should be readable
-            and convertible to grayscale for analysis.
+    Args:
+        image (Image.Image): Input image to analyze. Must be a PIL Image object.
 
-        Returns:
-            dict: A dictionary containing the calculated noise metrics:
-                - laplacian_variance (float): Variance of the Laplacian, a measure of
-                  sharpness.
-                - gradient_mean (float): Mean value of the gradient magnitude
-                  computed from the Sobel filter.
-                - gradient_std (float): Standard deviation of the gradient magnitude
-                  computed from the Sobel filter.
-                - gdf_entropy (float): Entropy of the Gradient Distribution Function
-                  (GDF), representing the smoothness and variability of gradients in
-                  the image.
-                - extreme_pixel (float): Percentage of pixels with intensity values
-                  near 0 or 255, indicating extreme dark or bright areas.
+    Raises:
+        ValueError: If the input image is None or cannot be read.
 
-        Raises:
-            ValueError: If the input image is None or invalid.
+    Returns:
+        dict: A dictionary containing the following noise and image quality metrics:
+            - laplacian_variance: Variance of the Laplacian of the image.
+            - gradient_mean: Mean gradient magnitude of the Sobel gradients.
+            - gradient_std: Standard deviation of the gradient magnitude.
+            - gdf_entropy: Entropy of the Gradient Distribution Function (GDF).
+            - extreme_pixel: Percentage of extreme pixels (intensity close to 0 or 255).
+            - mad: Mean Absolute Deviation of the pixel intensities.
+            - kurt: Kurtosis of the pixel intensity distribution.
+            - variance: Variance of the pixel intensities.
+            - snr: Signal-to-Noise Ratio (SNR) in decibels (dB).
     """
     if image is None:
         raise ValueError("Could not open or find the image.")
