@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 from scipy.stats import kurtosis
 
+
 def detect_noises(image: Image.Image):
     """
     Analyzes various noise-related metrics in a grayscale image and returns a dictionary
@@ -28,10 +29,12 @@ def detect_noises(image: Image.Image):
             - kurt: Kurtosis of the pixel intensity distribution.
             - variance: Variance of the pixel intensities.
             - snr: Signal-to-Noise Ratio (SNR) in decibels (dB).
+            - saturation_variance: Variance of the saturation channel in the HSV color space.
     """
     if image is None:
         raise ValueError("Could not open or find the image.")
 
+    sat_variance = saturation_variance(image)
     image = np.array(image.convert('L'))
 
     # 1. Laplacian variance method
@@ -76,8 +79,25 @@ def detect_noises(image: Image.Image):
         "kurt": kurt,
         "variance": variance,
         "snr": snr,
+        "saturation_variance": sat_variance,
     }
 
+def saturation_variance(image: Image.Image):
+    """
+    Computes the variance of the saturation channel in the HSV color space.
+    A high variance suggests sharp changes in color saturation, indicating
+    abrupt color transitions.
+
+    Args:
+        image (Image.Image): Input image (PIL format).
+
+    Returns:
+        float: Variance of the saturation channel.
+    """
+    image_cv = np.array(image)  # Convert PIL image to NumPy array
+    image_hsv = cv2.cvtColor(image_cv, cv2.COLOR_RGB2HSV)  # Convert to HSV
+    saturation = image_hsv[:, :, 1]  # Extract saturation channel
+    return np.var(saturation)
 
 def calculate_extreme_pixel(image_array, lower_threshold=30, upper_threshold=225):
     """

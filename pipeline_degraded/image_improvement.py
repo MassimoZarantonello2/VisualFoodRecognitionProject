@@ -10,7 +10,7 @@ def image_improvement(image):
     denoise_applied = False
     blurriness_applied = False
 
-    if 200 <= blurry_metrics["laplacian_variance"] <= 5000:
+    if 150 <= blurry_metrics["laplacian_variance"] <= 5000:
         pass
     elif blurry_metrics["laplacian_variance"] > 5000:
         if not denoise_applied:

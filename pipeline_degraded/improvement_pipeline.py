@@ -9,6 +9,7 @@ from PIL import Image
 
 from pipeline_degraded.metric_utils import detect_noises
 from scripts.ImageDataset import ImageDataset
+from image_improvement import image_improvement
 
 load_dotenv()
 
@@ -20,49 +21,8 @@ test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 test_dataset = ImageDataset(test_table, test_image_path, train=False)
 
 n = len(test_dataset)
-for i in range(20):
+for i in range(n):
     image = test_dataset.get_image_by_index(i)
-    blurry_metrics = detect_noises(image)
-
-    image = adaptive_gamma_correction(image)
-    image = max_rgb(image)
-
-    denoise_applied = False
-    blurriness_applied = False
-
-    if 150 <= blurry_metrics["laplacian_variance"] <= 5000:
-        pass
-    elif blurry_metrics["laplacian_variance"] > 5000:
-        if not denoise_applied:
-            image = denoise_salt_pepper(image)
-            image = denoise_bilateral(image)
-            denoise_applied = True
-    elif blurry_metrics["laplacian_variance"] < 150:
-        if not blurriness_applied:
-            image = deblurring(image)
-            blurriness_applied = True
-
-    if 200 <= blurry_metrics["gradient_mean"] <= 1250:
-        pass
-    elif blurry_metrics["gradient_mean"] > 1250:
-        if not denoise_applied:
-            image = denoise_salt_pepper(image)
-            image = denoise_bilateral(image)
-            denoise_applied = True
-    elif blurry_metrics["gradient_mean"] < 200:
-        if not blurriness_applied:
-            image = deblurring(image)
-            blurriness_applied = True
-
-    if blurry_metrics["gdf_entropy"] > 4.5:
-        if not denoise_applied:
-            image = denoise_salt_pepper(image)
-            image = denoise_bilateral(image)
-            denoise_applied = True
-
-    if blurry_metrics["gradient_std"] < 450:
-        if not blurriness_applied:
-            image = deblurring(image)
-            blurriness_applied = True
+    image_hence = image_improvement(image)
     print(f"Image {i} processed.")
-    image.save(f"/Users/annamarika/Desktop/improvement_degradated/{test_table.iloc[i]['image_id']}")
+    image_hence.save(f"/Users/annamarika/Desktop/improvement_degradated/{test_table.iloc[i]['image_id']}")

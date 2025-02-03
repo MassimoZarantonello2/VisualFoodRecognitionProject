@@ -10,13 +10,14 @@ from torch.utils.data import DataLoader
 from PIL import Image
 import json
 
-from pipeline_degraded.metric_utils import detect_noises
+from pipeline_degraded.metric_utils import detect_noises, saturation_variance
 from scripts.ImageDataset import ImageDataset
 
 load_dotenv()
 
-test_path = '../ground_truth/new_val_info.csv'
-test_image_path = os.getenv('TEST_IMAGE_PATH')
+test_path = '../ground_truth/my_val_info.csv'
+# test_image_path = os.getenv('TEST_IMAGE_PATH')
+test_image_path ='/Users/annamarika/Desktop/val_set'
 
 test_table = pd.read_csv(test_path, header=None, names=['image_id', 'label'])
 
@@ -32,6 +33,7 @@ mad = []
 kurt = []
 variances = []
 snr = []
+sat_variance = []
 
 for i in range(len(test_dataset)):
     image=test_dataset.get_image_by_index(i)
@@ -46,6 +48,7 @@ for i in range(len(test_dataset)):
     kurt.append(blurry_metrics["kurt"])
     variances.append(blurry_metrics["variance"])
     snr.append(blurry_metrics["snr"])
+    sat_variance.append(saturation_variance(image))
 
     results.append({
         "image_id": test_table.iloc[i]['image_id'],
@@ -57,7 +60,8 @@ for i in range(len(test_dataset)):
         "mad": blurry_metrics["mad"],
         "kurt": blurry_metrics["kurt"],
         "variance": blurry_metrics["variance"],
-        "snr": blurry_metrics["snr"]
+        "snr": blurry_metrics["snr"],
+        "sat_variance": saturation_variance(image)
     })
 
     print(f"Image {i} processed.")
@@ -71,6 +75,7 @@ mean_mad = np.mean(mad)
 mean_kurt = np.mean(kurt)
 mean_var = np.mean(variances)
 mean_snr = np.mean(snr)
+mean_sat_variance = np.mean(sat_variance)
 
 print("Mean Laplacian Variance:", mean_laplacian_variance)
 print("Mean Gradient Mean:", mean_gradient_mean)
@@ -81,8 +86,9 @@ print("Mean Mad", mean_mad)
 print("Mean Kurt", mean_kurt)
 print("Mean Variance", mean_var)
 print("Mean SNR", mean_snr)
+print("Mean Saturation Variance", mean_sat_variance)
 
-output_path = "/Users/annamarika/Desktop/blurriness_metrics_degradato2.json"
+output_path = "/Users/annamarika/Desktop/blurriness_metrics_non_degradato2.json"
 with open(output_path, "w") as json_file:
     json.dump(results, json_file, indent=4)
 
