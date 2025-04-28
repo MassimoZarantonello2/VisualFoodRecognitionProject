@@ -1,7 +1,14 @@
 # Project FoodX_251
 
 ## Description
-This project focuses on the analysis and creation of complex models for image recognition using the FoodX_251 dataset. Throughout the project, various machine learning models were explored, performance on weak datasets was analyzed, and several aspects related to image quality were managed.
+This project focuses on the analysis and development of complex models for image recognition using the FoodX_251 dataset. 
+Throughout the project, various machine learning models were explored, performance on weak datasets was analyzed, and several aspects related to image quality were addressed.
+
+The first part of the project is dedicated to building a complex model that combines an ensemble of pre-trained models with a custom Convolutional Neural Network (CNN) for food recognition and classification from images.
+
+The second part focuses on improving a degraded dataset. We assume a scenario where the available images are compromised by noise. The goal is to optimize classification performance both by enhancing the quality of the 
+available data and by training classifiers directly on degraded images.
+
 
 ## Project Structure
 

@@ -25,7 +25,7 @@ if __name__ == '__main__':
     train_unlabel_df = pd.read_csv(train_unlabel_path)
     train_unlabel_dataset = ImageDataset(train_unlabel_df, train_image_path, train=True)
     for cycle in range(12,15):
-        lc = LogClass('log.txt')
+        lc = LogClass('utils/log.txt')
         lc.write('\n')
         lc.write(f'Length of train dataset: {len(iterative_train_df)}')
         lc.write(f'Length of unlabel dataset: {len(train_unlabel_df)}')

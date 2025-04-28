@@ -9,7 +9,7 @@ from PIL import Image
 
 from pipeline_degraded.metric_utils import detect_noises
 from scripts.ImageDataset import ImageDataset
-from image_improvement import image_improvement
+from pipeline_improvement import image_improvement
 
 load_dotenv()
 

@@ -7,11 +7,11 @@ models_names = ['resnet18', 'efficientnet','vgg16']
 
 
 train_df = pd.read_csv('/ground_truth/my_iterative_train_augmented2.csv')
-train_dataset = ImageDataset(train_df, '/Users/annamarika/Desktop/train_set', train=True, deprecated=False)
+train_dataset = ImageDataset(train_df, '../train_set', train=True, deprecated=False)
 
 
 test_df = pd.read_csv('../ground_truth/my_val_info.csv', header=None, names=['image', 'label'])
-test_dataset = ImageDataset(test_df, '/Users/annamarika/Desktop/improvement_degradated', train=False, deprecated=False)
+test_dataset = ImageDataset(test_df, '../improvement_degradated', train=False, deprecated=False)
 
 
 
@@ -26,4 +26,4 @@ results_df = pd.DataFrame({
     'confidence': predictions_confidences
 })
 
-results_df.to_csv('/Users/annamarika/Desktop/ensemble_predictions.csv', index=False)
+results_df.to_csv('../ensemble_predictions.csv', index=False)

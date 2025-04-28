@@ -1,5 +1,5 @@
 from torch.utils.data import Dataset
-from pipeline_degraded.image_improvement import image_improvement
+from pipeline_degraded.pipeline_improvement import image_improvement
 from torchvision import transforms
 from PIL import Image
 import pandas as pd

@@ -107,7 +107,7 @@ unlabel_train_df = pd.read_csv(train_unlabel_path, header=None, names=['image_id
 models_list =['resnet18', 'efficientnet','vgg16']
 
 
-with open('./log.txt', 'w+') as f:
+with open('utils/log.txt', 'w+') as f:
     for i in range(10):
         f.write(f'--------------------------------------\n')
         f.write(f'Inizio Iterazione {i}\n')
